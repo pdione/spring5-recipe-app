@@ -126,10 +126,18 @@ public class Recipe {
 	return notes;
     }
 
+    // For bi-directional mapping.
     public void setNotes(Notes notes) {
-	this.notes = notes;
+        this.notes = notes;
+        notes.setRecipe(this);
     }
 
+    // For bi-directional mapping.
+    public Recipe addIngredient(Ingredient ingredient){
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
     public Set<Ingredient> getIngredients() {
 	return ingredients;
     }
