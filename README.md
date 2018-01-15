@@ -5,3 +5,5 @@ mvn spring-boot:help -Ddetail=true
 
 Running spring-boot in debug mode!!
 mvn spring-boot:run -Drun.arguments=--debug
+
+Testing Circleci.
