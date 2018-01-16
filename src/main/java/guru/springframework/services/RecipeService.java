@@ -6,9 +6,7 @@ import guru.springframework.domain.Recipe;
 import java.util.Set;
 
 /**
- * 
  * @author boumi
- *
  */
 public interface RecipeService {
 
@@ -19,4 +17,6 @@ public interface RecipeService {
     RecipeCommand findCommandById(Long l);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
+
+    void deleteById(Long idToDelete);
 }
