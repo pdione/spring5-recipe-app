@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude={"recipe"})
 @Entity
 public class Ingredient {

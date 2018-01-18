@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * Created by boumi.
+ */
 @Slf4j
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -36,7 +39,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
-        if (!recipeOptional.isPresent()) {
+        if (!recipeOptional.isPresent()){
             //todo impl error handling
             log.error("recipe id not found. Id: " + recipeId);
         }
@@ -45,9 +48,9 @@ public class IngredientServiceImpl implements IngredientService {
 
         Optional<IngredientCommand> ingredientCommandOptional = recipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                .map(ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
+                .map( ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
 
-        if (!ingredientCommandOptional.isPresent()) {
+        if(!ingredientCommandOptional.isPresent()){
             //todo impl error handling
             log.error("Ingredient id not found: " + ingredientId);
         }
@@ -83,16 +86,29 @@ public class IngredientServiceImpl implements IngredientService {
                         .orElseThrow(() -> new RuntimeException("UOM NOT FOUND"))); //todo address this
             } else {
                 //add new Ingredient
-                recipe.addIngredient(ingredientCommandToIngredient.convert(command));
+                Ingredient ingredient = ingredientCommandToIngredient.convert(command);
+                ingredient.setRecipe(recipe);
+                recipe.addIngredient(ingredient);
             }
 
             Recipe savedRecipe = recipeRepository.save(recipe);
 
-            //to do check for fail
-            return ingredientToIngredientCommand.convert(savedRecipe.getIngredients().stream()
+            Optional<Ingredient> savedIngredientOptional = savedRecipe.getIngredients().stream()
                     .filter(recipeIngredients -> recipeIngredients.getId().equals(command.getId()))
-                    .findFirst()
-                    .get());
+                    .findFirst();
+
+            //check by description
+            if(!savedIngredientOptional.isPresent()){
+                //not totally safe... But best guess
+                savedIngredientOptional = savedRecipe.getIngredients().stream()
+                        .filter(recipeIngredients -> recipeIngredients.getDescription().equals(command.getDescription()))
+                        .filter(recipeIngredients -> recipeIngredients.getAmount().equals(command.getAmount()))
+                        .filter(recipeIngredients -> recipeIngredients.getUom().getId().equals(command.getUom().getId()))
+                        .findFirst();
+            }
+
+            //to do check for fail
+            return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
         }
 
     }
