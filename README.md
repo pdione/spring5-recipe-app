@@ -7,4 +7,4 @@ Running spring-boot in debug mode!!
 mvn spring-boot:run -Drun.arguments=--debug
 
 [![CircleCI](https://circleci.com/gh/pdione/spring5-recipe-app.svg?style=svg)](https://circleci.com/gh/pdione/spring5-recipe-app)
-[![codecov](https://codecov.io/gh/pdione/spring5-recipe-app/branch/master/graph/badge.svg)](https://codecov.io/gh/pdione/spring5-recipe-app)
+[![codecov](https://codecov.io/gh/pdione/spring5-recipe-app/branch/spring5-recipe-mysql/graph/badge.svg)](https://codecov.io/gh/pdione/spring5-recipe-app)
