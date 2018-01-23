@@ -66,6 +66,7 @@ public class RecipeControllerTest {
                 .andExpect(view().name("404error"));
     }
 
+    // Ignored test crashed with jacoco.
     @Test
     @Ignore
     public void testGetRecipeNumberFormatException() throws Exception {
